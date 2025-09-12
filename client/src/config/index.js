@@ -41,7 +41,7 @@ export const loginFormComtrols = [
     componentName: "input",
     componentType: "text",
     name: "email",
-    label: "email",
+    label: "Email",
     placeholder: "Enter your email address",
   },
   {
