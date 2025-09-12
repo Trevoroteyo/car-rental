@@ -187,7 +187,9 @@ export const bookCar = async (formData) => {
 
 export const getMyBookings = async (userId) => {
   try {
-    const { data } = await axios.get(`${backend}/api/booking/get-my-bookings/${userId}`, );
+    const { data } = await axios.get(
+      `${backend}/api/booking/get-my-bookings/${userId}`
+    );
     return data;
   } catch (error) {
     console.log("Error getting myBookings", error);
