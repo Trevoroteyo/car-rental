@@ -47,7 +47,7 @@ const AppProvider = ({ children }) => {
 
   useEffect(() => {
     fetchMyBookings();
-  }, [auth?.user?._id]);
+  }, []);
   return (
     <AppContext.Provider
       value={{

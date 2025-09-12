@@ -1,6 +1,5 @@
 import BookingCard from "@/components/user/BookingCard";
 import { AppContext } from "@/context/AppContext";
-import { AuthContext } from "@/context/AuthContext";
 import React, { useContext } from "react";
 
 const MyBookings = () => {
