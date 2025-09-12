@@ -13,10 +13,8 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGODB_URI = process.env.MONGODB_URI;
 
-const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || process.env.CLIENT_URLS?.split(",") || [];
-
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: process.env.CLIENT_URL,
   credentials: true,
 };
 
