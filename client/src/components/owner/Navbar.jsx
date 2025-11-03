@@ -9,10 +9,14 @@ import {
   SheetTrigger,
   SheetTitle,
 } from "../ui/sheet";
+import { AuthContext } from "@/context/AuthContext";
+import {useNavigate} from "react-router-dom"
 
 const Navbar = () => {
   const [searchTerm, setSearchTerm] = React.useState("");
   const location = useLocation();
+  const {auth} = React.useContext(AuthContext);
+  const navigate = useNavigate()
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -25,16 +29,26 @@ const Navbar = () => {
   };
 
   return (
-    <header className={`${location.pathname === "/" ? "bg-blue-100 shadow-sm w-full" : " w-full"} `}>
+    <header
+      className={`${
+        location.pathname === "/" ? "bg-blue-100 shadow-sm w-full" : " w-full"
+      } `}
+    >
       <div className="flex items-center justify-between w-full pt-5 pb-5 px-4 md:px-8 mx-auto ">
         <div>
-          <Link to="/"><img src={assets.logo} alt="Logo" className="h-8 w-auto" /></Link>
+          <Link to="/">
+            <img src={assets.logo} alt="Logo" className="h-8 w-auto" />
+          </Link>
         </div>
 
         <div className="hidden lg:flex  items-center gap-8">
           <nav className="flex items-center gap-4">
             {menuLinks?.map((menuItem) => (
-              <Link to={menuItem.path} className="text-[17px]" key={menuItem.name}>
+              <Link
+                to={menuItem.path}
+                className="text-[17px]"
+                key={menuItem.name}
+              >
                 {menuItem.name}
               </Link>
             ))}
@@ -56,10 +70,19 @@ const Navbar = () => {
           </form>
         </div>
 
-        <div className="hidden lg:flex items-center text-[17px] gap-4">
-          <Link to={"/list-car"}>List Car</Link>
-          <Button className="bg-blue-600 text-white">Sign Up</Button>
+        <div className="flex items-start gap-4">
+          <Button variant="outline"
+            onClick={()=> navigate("/")}
+            className="text-gray-700 cursor-pointer hover:bg-gray-800 hover:text-white"
+          >
+            Back to Selling
+          </Button>
+          <p className="text-white bg-blue-600 rounded-full px-3 py-1 flex text-center cursor-pointer">
+            {auth.user?.name?.charAt(0).toUpperCase()}
+          </p>
         </div>
+
+        
 
         {/* mobile view menu */}
         <div className="flex lg:hidden">
@@ -70,7 +93,11 @@ const Navbar = () => {
             <SheetContent side="left" className="p-4 pl-5 bg-cyan-50 text-lg">
               <SheetHeader>
                 <SheetTitle>
-                  <img src={assets.logo} alt="Logo" className="-pl-3 h-8 w-auto" />
+                  <img
+                    src={assets.logo}
+                    alt="Logo"
+                    className="-pl-3 h-8 w-auto"
+                  />
                 </SheetTitle>
               </SheetHeader>
               <nav className="flex flex-col gap-4">
@@ -89,17 +116,15 @@ const Navbar = () => {
                   Search
                 </span>
               </div>
-              <Link className=" text-gray-700 hover:text-blue-600">
+              <Link to='/' className=" text-gray-700 hover:text-blue-600">
                 List Car
               </Link>
-              <Button className="bg-blue-600 text-white mt-2 w-full">
-                Sign Up
-              </Button>
+              
             </SheetContent>
           </Sheet>
         </div>
       </div>
-      <hr className="text-gray-300"/>
+      <hr className="text-gray-300" />
     </header>
   );
 };

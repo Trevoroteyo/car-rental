@@ -163,7 +163,7 @@ const Navbar = () => {
                 ))}
                 {auth?.authenticated ? (
                   <div className="flex flex-col items-start gap-4">
-                    <div onClick={handleBecomeOwner} className="text-gray-700">
+                    <div onClick={handleBecomeOwner} className="text-gray-700 cursor-pointer">
                       List Car
                     </div>
                     <p className="text-white bg-blue-600 rounded-full px-3 py-1 flex text-center cursor-pointer">

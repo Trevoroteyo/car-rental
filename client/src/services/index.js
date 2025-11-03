@@ -1,6 +1,8 @@
 import axios from "axios";
 const backend = import.meta.env.VITE_BACKEND_URL;
 console.log("Backend URL:", backend); // should log http://localhost:5000
+// Ensure axios sends cookies (httpOnly) for cross-site requests by default
+axios.defaults.withCredentials = true;
 
 export const signUpService = async (formData) => {
   try {
@@ -114,7 +116,12 @@ export const becomeOwner = async (userId) => {
 
 export const logoutUser = async () => {
   try {
-    const { data } = await axios.post(`${backend}/api/auth/logout`);
+    // include credentials so the server can clear the httpOnly cookie
+    const { data } = await axios.post(
+      `${backend}/api/auth/logout`,
+      {},
+      { withCredentials: true }
+    );
     return data;
   } catch (error) {
     console.log(`Error logging out ${error}`);

@@ -41,7 +41,7 @@ export const registerUser = async (req, res) => {
     if (existingUser) {
       return res.json({
         success: false,
-        message: "User already exists with this email",
+        message: "User with this email already exists!",
       });
     }
 
@@ -116,10 +116,11 @@ export const loginUser = async (req, res) => {
     //set token in cookies
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      secure: true,
       sameSite: "none",
-      crossSite : true,
+      path: "/",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day
     });
 
     res.status(200).json({
@@ -137,9 +138,9 @@ export const loginUser = async (req, res) => {
 export const logoutUser = (req, res) => {
   res.clearCookie("token", {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "none",
-    crossSite : true,
+    path: "/",
   });
   res.status(200).json({
     success: true,

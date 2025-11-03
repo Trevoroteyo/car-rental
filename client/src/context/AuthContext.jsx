@@ -35,7 +35,14 @@ const AuthProvider = ({ children }) => {
   async function logOut() {
     const response = await logoutUser();
     if (response.success) {
+      // Immediately update local auth state and re-validate with server
       setAuth({ authenticated: false, user: null });
+      // Re-fetch profile to ensure cookie was cleared on the server
+      try {
+        await fetchProfileData();
+      } catch {
+        // ignore - fetchProfileData already handles errors
+      }
     }
   }
 

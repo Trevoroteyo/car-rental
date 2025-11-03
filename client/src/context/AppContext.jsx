@@ -39,6 +39,7 @@ const AppProvider = ({ children }) => {
   function handleCarDetails(getCarId) {
     fetchCarDetails(getCarId);
     navigate(`/car-details/${getCarId}`);
+    scrollTo(0, 0, { behaviour: "smooth" });
   }
 
   useEffect(() => {

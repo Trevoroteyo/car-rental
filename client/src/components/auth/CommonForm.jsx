@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { Label } from "../ui/label";
 import { DialogHeader, DialogContent, DialogTitle } from "../ui/dialog";
 import { AuthContext } from "@/context/AuthContext";
+import { ThreeDots } from "react-loader-spinner";
 
 const CommonForm = ({
   formControls,
@@ -9,6 +10,7 @@ const CommonForm = ({
   handleFormSubmit,
   headerContent,
   mode,
+  loading,
 }) => {
   const { setShowSignIn, setShowSignUp, errorMsg } = useContext(AuthContext);
 
@@ -85,9 +87,9 @@ const CommonForm = ({
         </p>
         <button
           type="submit"
-          className="bg-blue-600 text-white cursor-pointer py-1 rounded-md outline-none"
+          className="bg-blue-600 text-white cursor-pointer py-1 rounded-md outline-none mt-2 flex justify-center items-center"
         >
-          {btnText}
+          {loading ? <ThreeDots ariaLabel="three-dots-loading" color="#ffffff" height="30" width="60" /> : btnText}
         </button>
 
         {/* Footer */}

@@ -9,6 +9,7 @@ import { AuthContext } from "@/context/AuthContext";
 const SignIn = ({ open, setOpen }) => {
   const [formData, setFormData] = useState(initialLoginFormData);
   const { fetchProfileData } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSignInFormSubmit(event) {
     event.preventDefault();
@@ -20,12 +21,14 @@ const SignIn = ({ open, setOpen }) => {
     setFormData(newFormData);
 
     const response = await signInService(formData);
-
+    setIsLoading(true);
     if (response?.success) {
+      setIsLoading(false);
       toast.success(response.message);
       setOpen(false);
       fetchProfileData(); // refresh auth context
     } else {
+      setIsLoading(false);
       toast.error(response?.message || "Invalid credentials");
     }
   }
@@ -42,6 +45,7 @@ const SignIn = ({ open, setOpen }) => {
         handleFormSubmit={handleSignInFormSubmit}
         headerContent="Sign In"
         mode="signin"
+        loading={isLoading}
       />
     </Dialog>
   );

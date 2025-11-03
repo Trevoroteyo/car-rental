@@ -7,8 +7,12 @@ import {
   DropdownMenuSeparator,
 } from "../ui/dropdown-menu";
 import { LogOut } from "lucide-react";
+import {useNavigate} from "react-router-dom"
+
 
 const UserProfile = ({handleLogout}) => {
+  const navigate = useNavigate()
+
   return (
     <DropdownMenuContent
       className=" w-40 bg-white border-gray-300 rounded shadow-sm mr-8"
@@ -16,14 +20,14 @@ const UserProfile = ({handleLogout}) => {
     >
       <DropdownMenuLabel className="bg-gray-100">My Account</DropdownMenuLabel>
       <DropdownMenuGroup>
-        <DropdownMenuItem className="hover:text-gray-700">
+        <DropdownMenuItem onClick={()=> navigate("/profile")} className="hover:text-gray-700">
           Profile
         </DropdownMenuItem>
         <DropdownMenuItem className="hover:text-gray-700">
           Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator className="bg-gray-300 mx-2" />
-        <DropdownMenuItem onClick={handleLogout}>
+        <DropdownMenuItem className="hover:bg-gray-100 cursor-pointer" onClick={handleLogout}>
           Logout <LogOut />
         </DropdownMenuItem>
       </DropdownMenuGroup>

@@ -6,6 +6,7 @@ import CarDetailsPage from "./pages/user/CarDetailsPage";
 import CarBookingPage from "./pages/user/CarBookingPage";
 import CarSearchPage from "./pages/user/CarSearchPage";
 import MyBookings from "./pages/user/MyBookings";
+import Profile from "./pages/user/Profile";
 import OwnerMainLayout from "./pages/owner/OwnerMainLayout";
 import Dashboard from "./pages/owner/Dashboard";
 import AddNewCarPage from "./pages/owner/AddNewCarPage";
@@ -30,6 +31,15 @@ const App = () => {
             </RouteGuard>
           }
         />
+        <Route
+          path="profile"
+          element={
+            <RouteGuard>
+              <Profile />
+            </RouteGuard>
+          }
+        />
+        
       </Route>
 
       {/* Owner-only routes */}

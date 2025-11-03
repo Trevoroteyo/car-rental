@@ -9,6 +9,7 @@ import { AuthContext } from "@/context/AuthContext";
 const SignUp = ({ open, setOpen }) => {
   const [formData, setFormData] = useState(initialSignUpFormData);
   const { setErrorMsg, fetchProfileData } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(false);
 
   async function handleSignUpFormSubmit(event) {
     event.preventDefault();
@@ -20,12 +21,15 @@ const SignUp = ({ open, setOpen }) => {
     setFormData(newFormData);
 
     const response = await signUpService(formData);
+    setIsLoading(true);
 
     if (response?.success) {
+      setIsLoading(false);
       toast.success(response.message);
       setOpen(false);
       fetchProfileData(); // auto login after signup
     } else {
+      setIsLoading(false);
       setErrorMsg(response?.message || "Something went wrong");
     }
   }
@@ -42,6 +46,7 @@ const SignUp = ({ open, setOpen }) => {
         handleFormSubmit={handleSignUpFormSubmit}
         headerContent="Sign Up"
         mode="signup"
+        loading={isLoading}
       />
     </Dialog>
   );
