@@ -5,6 +5,8 @@ import React, { useContext } from "react";
 
 const CarSearchPage = () => {
   const { allCars, handleCarDetails } = useContext(AppContext);
+
+  window.location("/car-search") && window.scrollTo(0, 0);
   return (
     <div className="flex flex-col ">
       <div className="h-60 bg-blue-100 flex flex-col gap-4 items-center py-12 mt-18">

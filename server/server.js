@@ -15,6 +15,7 @@ const MONGODB_URI = process.env.MONGODB_URI;
 
 const corsOptions = {
   origin: process.env.CLIENT_URL,
+  headers: ["Content-Type", "Authorization"],
   credentials: true,
 };
 

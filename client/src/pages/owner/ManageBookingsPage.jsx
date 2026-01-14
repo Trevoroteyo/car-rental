@@ -13,8 +13,6 @@ import { AppContext } from "@/context/AppContext";
 
 const ManageBookings = () => {
   const { myBookings } = useContext(AppContext);
-
-   
   return (
     <div className="flex flex-col gap-8 mb-20 mx-4">
       {/* Title */}
@@ -39,23 +37,23 @@ const ManageBookings = () => {
           </TableRow>
         </TableHeader>
         <TableBody className="p-4">
-          {myBookings.length > 0 ? (
+          {myBookings.length > 0 &&
             myBookings.map((booking) => (
               <TableRow
-                key={booking.car._id}
+                key={booking?.car}
                 className="border-gray-300 rounded-lg"
               >
                 <TableCell className="p-4">
                   <div className="flex flex-row items-center gap-3">
                     <img
-                      src={booking.car.image}
+                      src={booking?.car?.images[0]}
                       className="h-10 w-10 rounded-sm object-cover"
                     />
 
                     <div className="flex ">
                       <p className="font-semibold">
                         {" "}
-                        {booking.car.brand} {booking.car.model}
+                        {booking?.car?.brand} {booking?.car?.model}
                       </p>
                     </div>
                   </div>
@@ -64,7 +62,7 @@ const ManageBookings = () => {
                   {booking.pickupDate.split("T")[0]} to{" "}
                   {booking.returnDate.split("T")[0]}
                 </TableCell>
-                <TableCell>{booking.pricePerDay}/day</TableCell>
+                <TableCell>{booking?.car.pricePerDay}/day</TableCell>
                 <TableCell>
                   <Badge>{booking.status}</Badge>
                 </TableCell>
@@ -75,13 +73,11 @@ const ManageBookings = () => {
                   </div>
                 </TableCell>
               </TableRow>
-            ))
-          ) : (
-            <h2 className="text-lg">You currently have no bookings</h2>
-          )}
-
-          {/* Repeat TableRow for more bookings */}
+            ))}
         </TableBody>
+        {myBookings.length === 0 && (
+          <p className="text-gray-500 p-4">You currently have no bookings.</p>
+        )}
       </Table>
     </div>
   );

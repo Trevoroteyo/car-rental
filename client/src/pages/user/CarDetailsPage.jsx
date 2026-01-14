@@ -1,43 +1,56 @@
 import { assets } from "@/assets/assets";
 import { Label } from "@/components/ui/label";
 import { AppContext } from "@/context/AppContext";
-import { ArrowLeft, CheckCheckIcon, CheckCircleIcon } from "lucide-react";
+import {
+  ArrowLeft,
+  CheckCheckIcon,
+  CheckCircleIcon,
+  Loader2Icon,
+} from "lucide-react";
 import React, { useContext, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import {AuthContext} from "@/context/AuthContext"
-import {bookCar} from "@/services"
-import {toast} from "sonner"
+import { AuthContext } from "@/context/AuthContext";
+import { bookCar } from "@/services";
+import { toast } from "sonner";
 
 const CarDetailsPage = () => {
-  const { carDetails, fetchCarDetails } = useContext(AppContext);
-  const {auth} = useContext(AuthContext)
+  const { carDetails, fetchCarDetails, loading, setLoading } =
+    useContext(AppContext);
+  const { auth } = useContext(AuthContext);
 
   const { carId } = useParams(); // <-- get the param from the URL
 
-   async function handleBookCarSubmit(event){
-    event.preventDefault()
+  async function handleBookCarSubmit(event) {
+    event.preventDefault();
 
-    const data = event.target
-    const form = new FormData(data)
-    let dataForm = Object.fromEntries(form.entries())
+    const data = event.target;
+    const form = new FormData(data);
+    let dataForm = Object.fromEntries(form.entries());
 
-    const formData ={...dataForm,
+    const formData = {
+      ...dataForm,
       car: carId,
-      user : auth?.user?.userId,
-      owner : carDetails?.owner,
-      price : carDetails?.pricePerDay,
-    }
-    
-    try {
-      const response = await bookCar(formData)
-        console.log(response, "res")
+      user: auth?.user?._,
+      owner: carDetails?.owner,
+      price: carDetails?.pricePerDay,
+    };
 
-        if(response.success){
-        toast.success("You have booked the car successfully")
-          }
+    try {
+      console.log("auth:", auth);
+      setLoading(true);
+      const response = await bookCar(formData);
+      console.log(response, "res");
+
+      if (response.success) {
+        setLoading(false);
+        toast.success("You have booked the car successfully");
+      } else {
+        setLoading(false);
+        toast.error(response.message || "Failed booking car");
+      }
     } catch (error) {
       console.log(error, "Error booking car");
-      toast.error("Failed booking car")
+      toast.error("Failed booking car");
     }
   }
 
@@ -123,7 +136,10 @@ const CarDetailsPage = () => {
           </div>
         </div>
         <div className="flex flex-col gap-4 pt-2 mt-8">
-          <form className="flex flex-col items-start gap-3 border border-gray-300 p-4 rounded-lg shadow-lg" onSubmit={handleBookCarSubmit}>
+          <form
+            className="flex flex-col items-start gap-3 border border-gray-300 p-4 rounded-lg shadow-lg"
+            onSubmit={handleBookCarSubmit}
+          >
             <input
               type="text"
               placeholder={`$${carDetails.pricePerDay} per day`}
@@ -145,9 +161,12 @@ const CarDetailsPage = () => {
             <button
               type="submit"
               className="text-white bg-blue-600 hover:bg-blue-500 rounded-lg px-2 py-1 w-full text-center"
-            
             >
-              Book Now
+              {loading ? (
+                <Loader2Icon className="text-blue-600 animate-spin size-6" />
+              ) : (
+                "Book Now"
+              )}
             </button>
             <p className="text-sm text-gray-400">
               *No credit card required to reserve*

@@ -1,12 +1,16 @@
 import BookingCard from "@/components/user/BookingCard";
+import { AuthContext } from "@/context/AuthContext";
+import React, { useContext, useEffect } from "react";
+import { getMyBookings } from "@/services";
 import { AppContext } from "@/context/AppContext";
-import React, { useContext } from "react";
 
 const MyBookings = () => {
-  const { myBookings } = useContext(AppContext);
+  const { myBookings, fetchMyBookings } = useContext(AppContext);
 
-  console.log(myBookings, "myBookings");
-  
+  useEffect(() => {
+    fetchMyBookings();
+  }, []);
+
   return (
     <div className="flex flex-col items-start min-h-screen gap-1 md:mx-20 sm:mx-10 mx-6">
       <h1 className="font-semibold md:text-3xl sm:text-2xl text-xl mt-16">

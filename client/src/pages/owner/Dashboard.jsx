@@ -1,4 +1,4 @@
-import { assets, dummyMyBookingsData } from "@/assets/assets";
+import { assets } from "@/assets/assets";
 import { Label } from "@/components/ui/label";
 import React, { useContext } from "react";
 import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
@@ -6,7 +6,14 @@ import { Badge } from "@/components/ui/badge";
 import { AppContext } from "@/context/AppContext";
 
 const Dashboard = () => {
-  const { carData } = useContext(AppContext);
+  const { carData, myBookings } = useContext(AppContext);
+
+  console.log(myBookings, "myBookings");
+
+  const totalRevenue = myBookings.reduce((acc, booking) => acc + booking.price, 0);
+  const totalBookings = myBookings.length;
+  const pendingBookings = myBookings.filter(booking => booking.status === 'pending').length;
+  const completedBookings = myBookings.filter(booking => booking.status === 'completed').length;
 
   return (
     <div className="flex flex-col gap-8 mb-20">
@@ -36,7 +43,7 @@ const Dashboard = () => {
         <div className="flex flex-row justify-between items-center gap-4 p-4 border border-gray-400 rounded">
           <div className="flex flex-col gap-1 items-center">
             <Label className="text-gray-400">Total Bookings</Label>
-            <p className="font-semibold text-lg">8</p>
+            <p className="font-semibold text-lg">{totalBookings}</p>
           </div>
           <img
             src={assets.listIconColored}
@@ -47,7 +54,7 @@ const Dashboard = () => {
         <div className="flex flex-row sm:flex-row justify-between items-center gap-4 p-4 border border-gray-400 rounded">
           <div className="flex flex-col gap-1 items-center">
             <Label className="text-gray-400">Pending Bookings</Label>
-            <p className="font-semibold text-lg">8</p>
+            <p className="font-semibold text-lg">{pendingBookings}</p>
           </div>
           <img
             src={assets.cautionIconColored}
@@ -58,7 +65,7 @@ const Dashboard = () => {
         <div className="flex flex-row justify-between items-center gap-4 p-4 border border-gray-400 rounded">
           <div className="flex flex-col gap-1 items-center">
             <Label className="text-gray-400">Completed Bookings</Label>
-            <p className="font-semibold text-lg">8</p>
+            <p className="font-semibold text-lg">{completedBookings}</p>
           </div>
           <img
             src={assets.listIconColored}
@@ -78,7 +85,7 @@ const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {dummyMyBookingsData.map((booking, idx) => (
+            {myBookings.map((booking, idx) => (
               <div
                 key={idx}
                 className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 mb-3 border-b border-gray-200 pb-2"
@@ -90,10 +97,10 @@ const Dashboard = () => {
                   />
                   <div className="flex flex-col items-start py-1">
                     <Label className="font-semibold text-base">
-                      {`${booking.car.brand} ${booking.car.model}`}
+                      {booking?.car?.brand} {booking?.car?.model}
                     </Label>
                     <p className="text-gray-400 text-sm">
-                      {(booking.car.createdAt || "").split("T")[0]}
+                      {booking.createdAt.split("T")[0]}
                     </p>
                   </div>
                 </div>
@@ -112,7 +119,7 @@ const Dashboard = () => {
           <p className="text-gray-400 text-sm mb-4">
             Revenue for current month
           </p>
-          <p className="text-blue-600 text-2xl font-semibold">$1060</p>
+          <p className="text-blue-600 text-2xl font-semibold">${totalRevenue}</p>
         </div>
       </div>
     </div>

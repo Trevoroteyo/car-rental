@@ -30,11 +30,11 @@ const Footer = () => {
                         <Link to="/insurance" className="hover:underline">Insurance</Link>
                     </div>
                     <div className="flex flex-col gap-2">
-                        <Label className="text-gray-100 font-semibold mb-2">1234 Luxury</Label>
+                        <Label className="text-gray-100 font-semibold mb-2">Car Rental</Label>
                         <span>Home</span>
                         <span>Browse Cars</span>
                         <span>List Your Car</span>
-                        <a href="mailto:nascars@gmail.com" className="hover:underline">nascars@gmail.com</a>
+                        <a href="mailto:nascars@gmail.com" className="hover:underline">carrental@gmail.com</a>
                     </div>
                 </div>
             </div>
